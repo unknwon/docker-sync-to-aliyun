@@ -6,7 +6,7 @@ on: push
 
 jobs:
   server:
-    name: 'sourcegraph/server:insiders'
+    name: 'server:insiders'
     runs-on: ubuntu-latest
     steps:
     - name: Pull image from Docker Hub
@@ -14,4 +14,6 @@ jobs:
     - name: Tag image
       run: docker tag sourcegraph/server:insiders registry.cn-hangzhou.aliyuncs.com/sourcegraph/server:insiders
     - name: Push image to Aliyun
-      run: docker push registry.cn-hangzhou.aliyuncs.com/sourcegraph/server:insiders
+      run: |
+        cat ${{ secrets.PASSWORD }} | docker login --username ${{ secrets.USERNAME }} --password-stdin registry.cn-hangzhou.aliyuncs.com
+        docker push registry.cn-hangzhou.aliyuncs.com/sourcegraph/server:insiders
