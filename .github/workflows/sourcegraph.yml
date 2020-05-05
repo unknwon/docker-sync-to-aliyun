@@ -1,8 +1,8 @@
 name: Sourcegraph
 
-on:
-  schedule:
-    - cron: '*/5 * * * *'
+on: push
+#   schedule:
+#     - cron: '*/5 * * * *'
 
 jobs:
   server:
@@ -11,3 +11,7 @@ jobs:
     steps:
     - name: Pull image from Docker Hub
       run: docker pull sourcegraph/server:insiders
+    - name: Tag image
+      run: docker tag sourcegraph/server:insiders registry.cn-hangzhou.aliyuncs.com/sourcegraph/server:insiders
+    - name: Push image to Aliyun
+      run: docker push registry.cn-hangzhou.aliyuncs.com/sourcegraph/server:insiders
