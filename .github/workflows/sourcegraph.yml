@@ -1,0 +1,13 @@
+name: Sourcegraph
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+
+jobs:
+  server:
+    name: 'sourcegraph/server:insiders'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Pull image from Docker Hub
+      run: docker pull sourcegraph/server:insiders
