@@ -13,7 +13,11 @@ jobs:
       run: docker pull sourcegraph/server:insiders
     - name: Tag image
       run: docker tag sourcegraph/server:insiders registry.cn-hangzhou.aliyuncs.com/sourcegraph/server:insiders
+    - name: Login to Aliyun registry
+      uses: azure/docker-login@v1
+      with:
+        login-server: registry.cn-hangzhou.aliyuncs.com
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}  
     - name: Push image to Aliyun
-      run: |
-        docker login --username ${{ secrets.USERNAME }} --password ${{ secrets.PASSWORD }} registry.cn-hangzhou.aliyuncs.com
-        docker push registry.cn-hangzhou.aliyuncs.com/sourcegraph/server:insiders
+      run: docker push registry.cn-hangzhou.aliyuncs.com/sourcegraph/server:insiders
