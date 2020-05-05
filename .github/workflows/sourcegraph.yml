@@ -15,5 +15,5 @@ jobs:
       run: docker tag sourcegraph/server:insiders registry.cn-hangzhou.aliyuncs.com/sourcegraph/server:insiders
     - name: Push image to Aliyun
       run: |
-        cat ${{ secrets.PASSWORD }} | docker login --username ${{ secrets.USERNAME }} --password-stdin registry.cn-hangzhou.aliyuncs.com
+        cat "${{ secrets.PASSWORD }}" | docker login --username ${{ secrets.USERNAME }} --password-stdin registry.cn-hangzhou.aliyuncs.com
         docker push registry.cn-hangzhou.aliyuncs.com/sourcegraph/server:insiders
