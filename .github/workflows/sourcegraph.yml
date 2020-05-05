@@ -1,8 +1,8 @@
 name: Sourcegraph
 
-on: push
-#   schedule:
-#     - cron: '*/5 * * * *'
+on:
+  schedule:
+    - cron: '*/10 * * * *'
 
 jobs:
   server:
