@@ -2,12 +2,22 @@ name: Sourcegraph
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/10 * * * *'
 
 jobs:
   server:
-    name: 'sourcegraph/server:insiders'
+    name: 'server:insiders'
     runs-on: ubuntu-latest
     steps:
     - name: Pull image from Docker Hub
       run: docker pull sourcegraph/server:insiders
+    - name: Tag image
+      run: docker tag sourcegraph/server:insiders registry.cn-hangzhou.aliyuncs.com/sourcegraph/server:insiders
+    - name: Login to Aliyun registry
+      uses: azure/docker-login@v1
+      with:
+        login-server: registry.cn-hangzhou.aliyuncs.com
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}  
+    - name: Push image to Aliyun
+      run: docker push registry.cn-hangzhou.aliyuncs.com/sourcegraph/server:insiders
