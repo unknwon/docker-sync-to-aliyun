@@ -1,0 +1,23 @@
+name: PgHero
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+
+jobs:
+  pghero:
+    name: 'pghero:latest'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Pull image from Docker Hub
+      run: docker pull ankane/pghero:latest
+    - name: Tag image
+      run: docker tag ankane/pghero:latest registry.cn-hangzhou.aliyuncs.com/pghero/pghero:latest
+    - name: Login to Aliyun registry
+      uses: azure/docker-login@v1
+      with:
+        login-server: registry.cn-hangzhou.aliyuncs.com
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}  
+    - name: Push image to Aliyun
+      run: docker push registry.cn-hangzhou.aliyuncs.com/pghero/pghero:latest
